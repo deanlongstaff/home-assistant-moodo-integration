@@ -1,0 +1,58 @@
+# Python specific
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+*.egg
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Home Assistant specific
+.deps/
+custom_components/__pycache__/
+homeassistant/generated/
+homeassistant/package/
+
+# Unit tests and coverage
+.coverage
+coverage.xml
+*.cover
+*.py,cover
+htmlcov/
+.pytest_cache/
+tox/
+nox/
+.coverage.*
+.junit.xml
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs and runtime data
+*.log
+*.log.*
+home-assistant.log
+home-assistant.log.*
+
+# Virtual environment
+.python-version
+pip-selfcheck.json
+
+# Miscellaneous
+*.bak
+*.swp
+*~

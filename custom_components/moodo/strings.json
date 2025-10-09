@@ -1,0 +1,87 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up Moodo",
+        "description": "Please log in with your Moodo account credentials. If you need to reset your password, visit [moodo.co](https://www.moodo.co) or the Moodo app.",
+        "data": {
+          "email": "Email",
+          "password": "Password"
+        },
+        "data_description": {
+          "email": "The email address associated with your Moodo account.",
+          "password": "The password for your Moodo account."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Reauthenticate Moodo",
+        "description": "Your Moodo credentials need to be updated. Please enter your current email and password. If you need to reset your password, visit [moodo.co](https://www.moodo.co) or the Moodo app.",
+        "data": {
+          "email": "Email",
+          "password": "Password"
+        },
+        "data_description": {
+          "email": "[%key:component::moodo::config::step::user::data_description::email%]",
+          "password": "[%key:component::moodo::config::step::user::data_description::password%]"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Invalid email or password. Please check your Moodo account credentials and try again.",
+      "cannot_connect": "Unable to connect to Moodo servers. Please check your internet connection and try again.",
+      "unknown": "An unexpected error occurred. Please try again or check the logs for details."
+    },
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_account%]",
+      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]"
+    }
+  },
+  "entity": {
+    "switch": {
+      "shuffle": {
+        "name": "Shuffle"
+      },
+      "interval": {
+        "name": "Interval"
+      }
+    },
+    "select": {
+      "box_mode": {
+        "name": "Mode"
+      },
+      "interval_type": {
+        "name": "Interval Type",
+        "state": {
+          "interval_powerful": "Powerful (10 min on / 5 min off)",
+          "interval_efficient": "Efficient (10 min on / 10 min off)",
+          "interval_saver": "Saver (5 min on / 10 min off)"
+        }
+      },
+      "preset": {
+        "name": "Preset"
+      }
+    },
+    "sensor": {
+      "battery_level": {
+        "name": "Battery Level"
+      },
+      "adapter_status": {
+        "name": "Adapter Status",
+        "state": {
+          "on": "Connected",
+          "off": "Disconnected"
+        }
+      },
+      "charging_status": {
+        "name": "Charging Status",
+        "state": {
+          "charging": "Charging",
+          "not_charging": "Not charging"
+        }
+      },
+      "active_preset": {
+        "name": "Active Preset"
+      }
+    }
+  }
+}

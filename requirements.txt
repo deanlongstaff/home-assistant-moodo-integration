@@ -1,0 +1,2 @@
+aiohttp>=3.8.0
+python-socketio[asyncio_client]==4.6.1
