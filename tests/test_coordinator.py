@@ -218,11 +218,14 @@ async def test_coordinator_websocket_setup(
     mock_moodo_websocket: MagicMock,
 ) -> None:
     """Test WebSocket setup."""
+    mock_config_entry.add_to_hass(hass)
     coordinator = MoodoDataUpdateCoordinator(
         hass,
         mock_moodo_api_client,
         mock_config_entry,
     )
+    # Manually set config_entry since parent class overrides it
+    coordinator.config_entry = mock_config_entry
 
     await coordinator.async_config_entry_first_refresh()
 
@@ -245,11 +248,14 @@ async def test_coordinator_websocket_setup_failure(
     mock_moodo_websocket: MagicMock,
 ) -> None:
     """Test WebSocket setup failure is handled gracefully."""
+    mock_config_entry.add_to_hass(hass)
     coordinator = MoodoDataUpdateCoordinator(
         hass,
         mock_moodo_api_client,
         mock_config_entry,
     )
+    # Manually set config_entry since parent class overrides it
+    coordinator.config_entry = mock_config_entry
 
     await coordinator.async_config_entry_first_refresh()
 
@@ -332,11 +338,14 @@ async def test_coordinator_shutdown(
     mock_moodo_websocket: MagicMock,
 ) -> None:
     """Test coordinator shutdown."""
+    mock_config_entry.add_to_hass(hass)
     coordinator = MoodoDataUpdateCoordinator(
         hass,
         mock_moodo_api_client,
         mock_config_entry,
     )
+    # Manually set config_entry since parent class overrides it
+    coordinator.config_entry = mock_config_entry
 
     await coordinator.async_config_entry_first_refresh()
 

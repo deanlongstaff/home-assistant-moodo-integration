@@ -47,18 +47,19 @@ def mock_moodo_api_client() -> MagicMock:
             "id": "box_id_1",
             "name": "Living Room",
             "is_online": True,
-            "box_status": 1,
+            "box_status": 0,
             "box_version": 2,
             "shuffle": False,
             "interval": False,
             "fan_volume": 50,
             "box_mode": "diffuser",
             "can_interval_turn_on": True,
+            "has_battery": False,
             "settings": [
-                {"slot": 0, "fan_speed": 50, "fan_active": True, "capsule_type_code": "C01"},
-                {"slot": 1, "fan_speed": 50, "fan_active": True, "capsule_type_code": "C02"},
-                {"slot": 2, "fan_speed": 50, "fan_active": True, "capsule_type_code": "C03"},
-                {"slot": 3, "fan_speed": 50, "fan_active": True, "capsule_type_code": "C04"},
+                {"slot_id": 0, "slot": 0, "fan_speed": 50, "fan_active": True, "capsule_type_code": "C01", "capsule_info": {}},
+                {"slot_id": 1, "slot": 1, "fan_speed": 50, "fan_active": True, "capsule_type_code": "C02", "capsule_info": {}},
+                {"slot_id": 2, "slot": 2, "fan_speed": 50, "fan_active": True, "capsule_type_code": "C03", "capsule_info": {}},
+                {"slot_id": 3, "slot": 3, "fan_speed": 50, "fan_active": True, "capsule_type_code": "C04", "capsule_info": {}},
             ],
         }
     ])
@@ -70,12 +71,13 @@ def mock_moodo_api_client() -> MagicMock:
     client.get_favorites = AsyncMock(return_value=[
         {
             "id": "fav_1",
+            "title": "Favorite 1",
             "name": "Favorite 1",
             "settings": [
-                {"slot": 0, "capsule_type_code": "C01", "fan_speed": 50},
-                {"slot": 1, "capsule_type_code": "C02", "fan_speed": 50},
-                {"slot": 2, "capsule_type_code": "C03", "fan_speed": 50},
-                {"slot": 3, "capsule_type_code": "C04", "fan_speed": 50},
+                {"slot": 0, "capsule_type_code": "C01", "fan_speed": 50, "fan_active": True},
+                {"slot": 1, "capsule_type_code": "C02", "fan_speed": 50, "fan_active": True},
+                {"slot": 2, "capsule_type_code": "C03", "fan_speed": 50, "fan_active": True},
+                {"slot": 3, "capsule_type_code": "C04", "fan_speed": 50, "fan_active": True},
             ],
         }
     ])
@@ -87,6 +89,8 @@ def mock_moodo_api_client() -> MagicMock:
     client.power_off_box = AsyncMock(return_value={"box": {"box_status": 0}})
     client.set_fan_volume = AsyncMock(return_value={"box": {"fan_volume": 75}})
     client.set_box_mode = AsyncMock(return_value={"box": {"box_mode": "purifier"}})
+    client.set_fan_speeds = AsyncMock(return_value={"box": {}})
+    client.apply_favorite = AsyncMock(return_value={"box": {}})
     client.should_ignore_websocket_event = MagicMock(return_value=False)
 
     return client
@@ -98,6 +102,8 @@ def mock_moodo_websocket() -> MagicMock:
     websocket = MagicMock()
     websocket.connect = AsyncMock()
     websocket.disconnect = AsyncMock()
+    websocket.connect.return_value = None
+    websocket.disconnect.return_value = None
     return websocket
 
 
@@ -140,18 +146,19 @@ def mock_coordinator_data() -> dict[int, dict[str, Any]]:
             "id": "box_id_1",
             "name": "Living Room",
             "is_online": True,
-            "box_status": 1,
+            "box_status": 0,
             "box_version": 2,
             "shuffle": False,
             "interval": False,
             "fan_volume": 50,
             "box_mode": "diffuser",
             "can_interval_turn_on": True,
+            "has_battery": False,
             "settings": [
-                {"slot": 0, "fan_speed": 50, "fan_active": True, "capsule_type_code": "C01"},
-                {"slot": 1, "fan_speed": 50, "fan_active": True, "capsule_type_code": "C02"},
-                {"slot": 2, "fan_speed": 50, "fan_active": True, "capsule_type_code": "C03"},
-                {"slot": 3, "fan_speed": 50, "fan_active": True, "capsule_type_code": "C04"},
+                {"slot_id": 0, "slot": 0, "fan_speed": 50, "fan_active": True, "capsule_type_code": "C01", "capsule_info": {}},
+                {"slot_id": 1, "slot": 1, "fan_speed": 50, "fan_active": True, "capsule_type_code": "C02", "capsule_info": {}},
+                {"slot_id": 2, "slot": 2, "fan_speed": 50, "fan_active": True, "capsule_type_code": "C03", "capsule_info": {}},
+                {"slot_id": 3, "slot": 3, "fan_speed": 50, "fan_active": True, "capsule_type_code": "C04", "capsule_info": {}},
             ],
         }
     }
