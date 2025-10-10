@@ -4,8 +4,8 @@
   "codeowners": ["@deanlongstaff"],
   "config_flow": true,
   "documentation": "https://github.com/deanlongstaff/home-assistant-moodo-integration",
-  "iot_class": "cloud_push",
   "integration_type": "hub",
+  "iot_class": "cloud_push",
   "requirements": ["aiohttp>=3.8.0", "python-socketio[asyncio_client]==4.6.1"],
   "version": "1.0.0"
 }
