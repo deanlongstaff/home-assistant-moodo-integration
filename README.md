@@ -177,7 +177,8 @@ This integration includes comprehensive unit tests. To run them:
 1. **Install test dependencies:**
 
    ```bash
-   pip install pytest pytest-homeassistant-custom-component pytest-cov
+   pip install -r requirements.txt
+   pip install -r requirements_test.txt
    ```
 
 2. **Run all tests:**
@@ -211,6 +212,10 @@ The test suite covers:
 - API client functionality
 - Data coordinator updates and WebSocket handling
 - Switch platform (shuffle and interval modes)
+- Sensor platform (device status, battery, capsules)
+- Fan platform (power and speed control)
+- Select platform (mode, preset, interval type)
+- Number platform (capsule intensity control)
 - Error handling and edge cases
 
 ## Support
