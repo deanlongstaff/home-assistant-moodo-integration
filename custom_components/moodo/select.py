@@ -199,8 +199,8 @@ class MoodoIntervalTypeSelect(
         box = self.coordinator.data.get(self._device_key)
         if box is None:
             return False
-        # Only available if interval mode is enabled
-        return box.get("is_online", False) and box.get("interval", False)
+        # Available when device is online (interval switch controls on/off state)
+        return box.get("is_online", False)
 
     @property
     def options(self) -> list[str]:

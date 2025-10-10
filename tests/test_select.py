@@ -122,19 +122,19 @@ async def test_interval_type_select_state(
     assert state.attributes["friendly_name"] == "Living Room Interval Type"
 
 
-async def test_interval_type_unavailable_when_interval_off(
+async def test_interval_type_available_when_interval_off(
     hass: HomeAssistant,
     setup_select_platform: MoodoDataUpdateCoordinator,
     mock_coordinator_data: dict[int, dict[str, Any]],
 ) -> None:
-    """Test interval type select is unavailable when interval mode is off."""
+    """Test interval type select is available even when interval mode is off."""
     coordinator = setup_select_platform
 
-    # Interval is False by default
+    # Interval is False by default, but select should still be available
     state = hass.states.get("select.living_room_interval_type")
-    assert state.state == "unavailable"
+    assert state.state != "unavailable"
 
-    # Enable interval
+    # Enable interval - should still be available
     mock_coordinator_data[12345]["interval"] = True
     coordinator.async_set_updated_data(mock_coordinator_data)
     await hass.async_block_till_done()
