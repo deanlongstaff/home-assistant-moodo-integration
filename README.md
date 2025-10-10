@@ -7,7 +7,7 @@
 
 [![HACS Custom][hacs_shield]][hacs]
 [![GitHub Latest Release][releases_shield]][latest_release]
-[![GitHub All Releases][downloads_total_shield]][releases]
+[![HA integration usage][ha_analytics_shield]][ha_analytics]
 [![Buy Me A Coffee][buy_me_a_coffee_shield]][buy_me_a_coffee]
 
 ### Control your Moodo smart aroma diffusers with Home Assistant
@@ -236,7 +236,7 @@ This is a custom integration provided free for use with Home Assistant and Moodo
 [hacs]: https://hacs.xyz/docs/faq/custom_repositories
 [latest_release]: https://github.com/deanlongstaff/home-assistant-moodo-integration/releases/latest
 [releases_shield]: https://img.shields.io/github/release/deanlongstaff/home-assistant-moodo-integration.svg?style=popout
-[releases]: https://github.com/deanlongstaff/home-assistant-moodo-integration/releases
-[downloads_total_shield]: https://img.shields.io/github/downloads/deanlongstaff/home-assistant-moodo-integration/total
+[ha_analytics_shield]: https://img.shields.io/badge/dynamic/json?color=41BDF5&logo=home-assistant&label=integration%20usage&suffix=%20installs&cacheSeconds=15600&url=https://analytics.home-assistant.io/custom_integrations.json&query=$.moodo.total
+[ha_analytics]: https://analytics.home-assistant.io
 [buy_me_a_coffee_shield]: https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=popout&logo=buy-me-a-coffee&logoColor=black
 [buy_me_a_coffee]: https://buymeacoffee.com/deanlongstaff
