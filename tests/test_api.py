@@ -66,7 +66,7 @@ async def test_login_no_token_in_response(mock_session: MagicMock) -> None:
 
     mock_session.request.return_value.__aenter__.return_value = mock_response
 
-    with pytest.raises(MoodoAuthError, match="No token in response"):
+    with pytest.raises(MoodoAuthError, match="no token"):
         await client.login("test@example.com", "password123")
 
 
@@ -78,7 +78,7 @@ async def test_login_auth_error(mock_session: MagicMock) -> None:
 
     mock_session.request.return_value.__aenter__.return_value = mock_response
 
-    with pytest.raises(MoodoAuthError, match="Authentication failed"):
+    with pytest.raises(MoodoAuthError, match="Authentication rejected"):
         await client.login("test@example.com", "wrong_password")
 
 
@@ -304,7 +304,7 @@ async def test_request_auth_error_status_code(api_client: MoodoAPIClient, mock_s
 
     mock_session.request.return_value.__aenter__.return_value = mock_response
 
-    with pytest.raises(MoodoAuthError, match="Authentication failed"):
+    with pytest.raises(MoodoAuthError, match="Authentication rejected"):
         await api_client.get_boxes()
 
 
