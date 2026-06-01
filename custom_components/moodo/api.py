@@ -67,14 +67,20 @@ class MoodoAPIClient:
             if len(self._recent_request_ids) > 100:
                 self._recent_request_ids.pop()
 
+        _LOGGER.debug("API request: %s %s", method, endpoint)
+
         try:
             async with asyncio.timeout(API_TIMEOUT):
                 async with self._session.request(
                     method, url, json=data, headers=headers
                 ) as response:
+                    _LOGGER.debug("API response: %s %s -> HTTP %d", method, endpoint, response.status)
+
                     # Authentication errors
                     if response.status in (401, 403):
-                        raise MoodoAuthError("Authentication failed")
+                        raise MoodoAuthError(
+                            f"Authentication rejected (HTTP {response.status})"
+                        )
 
                     # Handle error responses
                     if response.status >= 400:
@@ -84,17 +90,32 @@ class MoodoAPIClient:
                         except Exception:
                             error_message = f"HTTP {response.status}"
 
-                        # Check if this is an authentication error based on message
-                        if any(keyword in error_message.lower() for keyword in ["credentials", "password", "email", "unauthorized", "authentication", "login"]):
+                        _LOGGER.debug(
+                            "API error detail: %s %s HTTP %d - %s",
+                            method, endpoint, response.status, error_message,
+                        )
+
+                        # Check if this is an authentication error based on message.
+                        # Note: Moodo documents 503 as its generic error response, so a
+                        # 503 with a credentials-related message is still an auth failure.
+                        if any(
+                            keyword in error_message.lower()
+                            for keyword in [
+                                "credentials", "password", "email",
+                                "unauthorized", "authentication", "login",
+                            ]
+                        ):
                             raise MoodoAuthError(error_message)
 
-                        raise MoodoConnectionError(f"API error: {error_message}")
+                        raise MoodoConnectionError(
+                            f"API error (HTTP {response.status}): {error_message}"
+                        )
 
                     return await response.json()
         except MoodoAuthError:
-            raise  # Re-raise auth errors as-is
+            raise
         except MoodoConnectionError:
-            raise  # Re-raise connection errors as-is
+            raise
         except asyncio.TimeoutError as err:
             raise MoodoConnectionError("Request timeout") from err
         except aiohttp.ClientError as err:
@@ -102,12 +123,29 @@ class MoodoAPIClient:
 
     async def login(self, email: str, password: str) -> str:
         """Login and get authentication token."""
+        _LOGGER.debug("Attempting login for account: %s", email)
         data = {"email": email, "password": password}
-        response = await self._request("POST", "/login", data)
+        try:
+            response = await self._request("POST", "/login", data)
+        except MoodoAuthError as err:
+            _LOGGER.debug(
+                "Login rejected for %s: %s. "
+                "If this account was created via Google or Apple sign-in, "
+                "a separate password must be set at moodo.co before using this integration.",
+                email,
+                err,
+            )
+            raise
         token = response.get("token")
         if not token:
-            raise MoodoAuthError("No token in response")
+            _LOGGER.debug(
+                "Login response for %s contained no token. Response keys: %s",
+                email,
+                list(response.keys()),
+            )
+            raise MoodoAuthError("Login succeeded but response contained no token")
         self._token = token
+        _LOGGER.debug("Login successful for %s", email)
         return token
 
     async def get_boxes(self) -> list[dict[str, Any]]:

@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Set up Moodo",
-        "description": "Please log in with your Moodo account credentials. If you need to reset your password, visit [moodo.co](https://www.moodo.co) or the Moodo app.",
+        "description": "Please log in with your Moodo email and password. **Note:** If you use Google or Apple to sign in to Moodo, you must first set a password at [moodo.co](https://www.moodo.co) before this integration can authenticate.",
         "data": {
           "email": "Email",
           "password": "Password"
@@ -27,7 +27,7 @@
       }
     },
     "error": {
-      "invalid_auth": "Invalid email or password. Please check your Moodo account credentials and try again.",
+      "invalid_auth": "Invalid email or password. If you signed up using Google or Apple, you must set a separate password at [moodo.co](https://www.moodo.co) before using this integration.",
       "cannot_connect": "Unable to connect to Moodo servers. Please check your internet connection and try again.",
       "unknown": "An unexpected error occurred. Please try again or check the logs for details."
     },

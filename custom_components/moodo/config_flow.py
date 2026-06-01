@@ -64,13 +64,20 @@ class MoodoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 )
 
             except MoodoAuthError as err:
-                _LOGGER.error("Authentication failed: %s", err)
+                _LOGGER.error(
+                    "Authentication failed for %s: %s. "
+                    "Verify credentials are correct. "
+                    "Accounts created via Google or Apple sign-in require a "
+                    "separate password to be set at moodo.co.",
+                    email,
+                    err,
+                )
                 errors["base"] = "invalid_auth"
             except MoodoConnectionError as err:
-                _LOGGER.error("Connection failed: %s", err)
+                _LOGGER.error("Connection to Moodo API failed: %s", err)
                 errors["base"] = "cannot_connect"
             except Exception:  # pylint: disable=broad-except
-                _LOGGER.exception("Unexpected exception")
+                _LOGGER.exception("Unexpected exception during Moodo setup for %s", email)
                 errors["base"] = "unknown"
 
         return self.async_show_form(
@@ -117,13 +124,20 @@ class MoodoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     return self.async_abort(reason="reauth_successful")
 
             except MoodoAuthError as err:
-                _LOGGER.error("Authentication failed: %s", err)
+                _LOGGER.error(
+                    "Reauthentication failed for %s: %s. "
+                    "Verify credentials are correct. "
+                    "Accounts created via Google or Apple sign-in require a "
+                    "separate password to be set at moodo.co.",
+                    email,
+                    err,
+                )
                 errors["base"] = "invalid_auth"
             except MoodoConnectionError as err:
-                _LOGGER.error("Connection failed: %s", err)
+                _LOGGER.error("Connection to Moodo API failed during reauth: %s", err)
                 errors["base"] = "cannot_connect"
             except Exception:  # pylint: disable=broad-except
-                _LOGGER.exception("Unexpected exception")
+                _LOGGER.exception("Unexpected exception during Moodo reauth for %s", email)
                 errors["base"] = "unknown"
 
         return self.async_show_form(
